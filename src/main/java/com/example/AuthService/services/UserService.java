@@ -2,17 +2,17 @@ package com.example.AuthService.services;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.example.AuthService.models.User;
 
 public interface UserService {
 
-	User addUser(User user);
+	String registerUser(User user);
 	
-	List<User> getAllUser();
-	
-	User getUserByEmail(String email) throws Exception;
-	
-	void deleteUserByEmail(String email) throws Exception;
+    String generateToken(String email);
+    
+    ResponseEntity<String> validateToken(String token);
 	
 	
 	
