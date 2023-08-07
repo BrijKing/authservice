@@ -1,57 +1,46 @@
 package com.example.AuthService.ServiceImp;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.AuthService.models.User;
 import com.example.AuthService.repositories.UserRepository;
+import com.example.AuthService.services.JwtService;
 import com.example.AuthService.services.UserService;
-
 
 @Service
 public class UserServiceImp implements UserService {
 	
-	
 	@Autowired
-	UserRepository userRepository;
+    private UserRepository userRepository;
+	
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtService jwtService;
 
 	@Override
-	public User addUser(User user) {
+	public String registerUser(User user) {
 		// TODO Auto-generated method stub
-		return userRepository.save(user);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		userRepository.save(user);
+		return "user registered successfully!!!";
 	}
 
 	@Override
-	public List<User> getAllUser() {
+	public String generateToken(String email) {
 		// TODO Auto-generated method stub
-		return userRepository.findAll();
+		return jwtService.generateToken(email);
 	}
 
 	@Override
-	public User getUserByEmail(String email) throws Exception {
+	public ResponseEntity<String> validateToken(String token) {
 		// TODO Auto-generated method stub
-		
-		return userRepository.findByEmail(email).orElseThrow(() -> new Exception("user not found with email : " + email));
-	}
+		return jwtService.validateToken(token);
 
-	@Override
-	public void deleteUserByEmail(String email) throws Exception {
-		// TODO Auto-generated method stub
-		
-		  Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent()) {
-            userRepository.deleteByEmail(email);;
-        } 
-        else {
-        	throw new Exception("user not found with email: " + email);
-        }
-		
-		
-		 
-		
 	}
 
 }
