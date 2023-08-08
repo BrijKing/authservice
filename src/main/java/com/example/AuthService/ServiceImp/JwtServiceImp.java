@@ -44,6 +44,7 @@ public class JwtServiceImp implements JwtService {
 	@Override
 	public String generateToken(String email) {
 		
+		
 		Map<String, Object> claims = new HashMap<>();
 		return createToken(claims, email);
 	}
@@ -54,10 +55,12 @@ public class JwtServiceImp implements JwtService {
 		return Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
 				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
+		
 	}
 
 	@Override
 	public Key getSignKey() {
+		
 		
 		byte[] keyBytes = Decoders.BASE64.decode(SECRET);
 		return Keys.hmacShaKeyFor(keyBytes);
