@@ -1,4 +1,4 @@
-package com.example.AuthService.models;
+ package com.example.AuthService.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -15,12 +15,28 @@ import lombok.NoArgsConstructor;
 public class User {
 	
 	
+	
 	@Id
 	private String id;
+	
 	
 	@Indexed(unique = true)
 	private String email;
 	private String password;
 	private String role;
 
+	public User(String email, String password) {
+		super();
+		this.email = email;
+		this.password = password;
+	}
+
+	public User(String email, String password, String role) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.role = role;
+	}
+	
+	
 }

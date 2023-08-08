@@ -22,9 +22,14 @@ public class UserServiceImp implements UserService {
     @Autowired
     private JwtService jwtService;
 
+	public UserServiceImp(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+		super();
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
+
 	@Override
 	public String registerUser(User user) {
-		// TODO Auto-generated method stub
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 		return "user registered successfully!!!";
@@ -32,15 +37,11 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public String generateToken(String email) {
-		// TODO Auto-generated method stub
 		return jwtService.generateToken(email);
 	}
 
 	@Override
 	public ResponseEntity<String> validateToken(String token) {
-		// TODO Auto-generated method stub
 		return jwtService.validateToken(token);
-
 	}
-
 }

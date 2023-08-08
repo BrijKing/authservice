@@ -11,8 +11,6 @@ public class CustomUserDetails implements UserDetails {
 	
 	private String email;
     private String password;
-    
-    
 
 	public CustomUserDetails(User user) {
 		super();

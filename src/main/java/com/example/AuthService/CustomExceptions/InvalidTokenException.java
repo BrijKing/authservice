@@ -7,7 +7,4 @@ public class InvalidTokenException  extends Exception {
 		// TODO Auto-generated constructor stub
 		super("Invalid Token received :( ");
 	}
-	
-	
-
 }
