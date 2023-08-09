@@ -25,18 +25,10 @@ public class User {
 	private String password;
 	private String role;
 
-	public User(String email, String password) {
-		super();
-		this.email = email;
-		this.password = password;
-	}
-
 	public User(String email, String password, String role) {
 		super();
 		this.email = email;
 		this.password = password;
 		this.role = role;
 	}
-	
-	
 }

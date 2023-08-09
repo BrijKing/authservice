@@ -28,6 +28,14 @@ public class UserController {
 
 	@Autowired
 	AuthenticationManager authenticationManager;
+	
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+		this.authenticationManager = authenticationManager;
+	}
 
 	@PostMapping("/register")
 	public ResponseEntity<String> registerUser(@RequestBody User user) {

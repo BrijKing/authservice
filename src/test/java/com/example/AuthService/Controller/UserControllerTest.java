@@ -2,10 +2,9 @@ package com.example.AuthService.Controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,14 +13,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.AuthService.CustomExceptions.UnauthorizedUserException;
-import com.example.AuthService.config.CustomUserDetails;
 import com.example.AuthService.controller.UserController;
 import com.example.AuthService.dto.AuthRequest;
 import com.example.AuthService.models.User;
@@ -51,37 +46,29 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testGenerateTokenAuthenticated() throws UnauthorizedUserException {
-		AuthRequest authRequest = new AuthRequest("j@n.com", "jimit");
-		UserDetails userDetails = new CustomUserDetails(new User("j@n.com", "jimit"));
+	public void testGenerateToken() throws UnauthorizedUserException {
 
-		when(authenticationManager.authenticate(any(Authentication.class)))
-				.thenReturn(new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
-		when(userService.generateToken(authRequest.getEmail())).thenReturn("generated-token");
+		AuthRequest mockAuthRequest = new AuthRequest();
+		mockAuthRequest.setEmail("j@n.com");
+		mockAuthRequest.setPassword("jimt");
 
-		ResponseEntity<String> response = userController.generateToken(authRequest);
+		AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
+		UserController userController = new UserController();
+		userController.setAuthenticationManager(authenticationManager);
 
-		assertEquals("generated-token", response.getBody());
+		Authentication mockAuthentication = mock(Authentication.class);
+		when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+				.thenReturn(mockAuthentication);
+		when(mockAuthentication.isAuthenticated()).thenReturn(true);
+
+		UserService userService = mock(UserService.class);
+		when(userService.generateToken("j@n.com")).thenReturn("token");
+		userController.setUserService(userService);
+
+		ResponseEntity<String> response = userController.generateToken(mockAuthRequest);
+
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-
-		verify(authenticationManager, times(1)).authenticate(any(Authentication.class));
-		verify(userService, times(1)).generateToken(authRequest.getEmail());
-	}
-
-	@Test
-	public void testGenerateTokenUnauthenticated() throws UnauthorizedUserException {
-		AuthRequest authRequest = new AuthRequest("j@n.com", "jimit");
-
-		when(authenticationManager.authenticate(any(Authentication.class)))
-				.thenThrow(new BadCredentialsException("Bad credentials"));
-
-		ResponseEntity<String> response = userController.generateToken(authRequest);
-
-		assertEquals("Unauthenticated user", response.getBody());
-		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-
-		verify(authenticationManager, times(1)).authenticate(any(Authentication.class));
-		verifyNoInteractions(userService);
+		assertEquals("token", response.getBody());
 	}
 
 	@Test

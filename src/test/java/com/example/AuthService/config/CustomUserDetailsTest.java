@@ -2,69 +2,81 @@ package com.example.AuthService.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Collection;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import com.example.AuthService.models.User;
 
 public class CustomUserDetailsTest {
 
+	private User mockUser;
+
 	@InjectMocks
 	CustomUserDetails customUserDetails;
-	
-//    @Test
-//    public void testGetAuthorities() {
-//        CustomUserDetails userDetails = new CustomUserDetails(new User("test@example.com", "password"));
-//
-//        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-//
-//        assertTrue(authorities.isEmpty());
-//    }
 
-    @Test
-    public void testGetPassword() {
-        CustomUserDetails userDetails = new CustomUserDetails(new User("test@example.com", "password"));
+	@BeforeEach
+	public void setUp() {
+		mockUser = new User();
+		mockUser.setEmail("j@n.com");
+		mockUser.setPassword("jimit");
+		mockUser.setRole("admin");
+	}
 
-        String password = userDetails.getPassword();
+	@Test
+	public void testGetAuthorities() {
+		CustomUserDetails userDetails = new CustomUserDetails(mockUser);
 
-        assertEquals("password", password);
-    }
+		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
-    @Test
-    public void testGetUsername() {
-        CustomUserDetails userDetails = new CustomUserDetails(new User("test@example.com", "password"));
+		assertEquals(1, authorities.size());
+		assertTrue(authorities.contains(new SimpleGrantedAuthority("admin")));
+	}
 
-        String username = userDetails.getUsername();
+	@Test
+	public void testGetPassword() {
+		CustomUserDetails userDetails = new CustomUserDetails(mockUser);
 
-        assertEquals("test@example.com", username);
-    }
+		assertEquals("jimit", userDetails.getPassword());
+	}
 
-    @Test
-    public void testAccountNonExpired() {
-        CustomUserDetails userDetails = new CustomUserDetails(new User("test@example.com", "password"));
+	@Test
+	public void testGetUsername() {
+		CustomUserDetails userDetails = new CustomUserDetails(mockUser);
 
-        assertTrue(userDetails.isAccountNonExpired());
-    }
+		assertEquals("j@n.com", userDetails.getUsername());
+	}
 
-    @Test
-    public void testAccountNonLocked() {
-        CustomUserDetails userDetails = new CustomUserDetails(new User("test@example.com", "password"));
+	@Test
+	public void testIsAccountNonExpired() {
+		CustomUserDetails userDetails = new CustomUserDetails(mockUser);
 
-        assertTrue(userDetails.isAccountNonLocked());
-    }
+		assertTrue(userDetails.isAccountNonExpired());
+	}
 
-    @Test
-    public void testCredentialsNonExpired() {
-        CustomUserDetails userDetails = new CustomUserDetails(new User("test@example.com", "password"));
+	@Test
+	public void testIsAccountNonLocked() {
+		CustomUserDetails userDetails = new CustomUserDetails(mockUser);
 
-        assertTrue(userDetails.isCredentialsNonExpired());
-    }
+		assertTrue(userDetails.isAccountNonLocked());
+	}
 
-    @Test
-    public void testIsEnabled() {
-        CustomUserDetails userDetails = new CustomUserDetails(new User("test@example.com", "password"));
+	@Test
+	public void testIsCredentialsNonExpired() {
+		CustomUserDetails userDetails = new CustomUserDetails(mockUser);
 
-        assertTrue(userDetails.isEnabled());
-    }
+		assertTrue(userDetails.isCredentialsNonExpired());
+	}
+
+	@Test
+	public void testIsEnabled() {
+		CustomUserDetails userDetails = new CustomUserDetails(mockUser);
+
+		assertTrue(userDetails.isEnabled());
+	}
 }
