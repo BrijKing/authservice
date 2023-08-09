@@ -14,23 +14,37 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.example.AuthService.CustomExceptions.InvalidTokenException;
+import com.example.AuthService.CustomExceptions.UnauthorizedUserException;
 
 @ExtendWith(MockitoExtension.class)
 public class MyExceptionHandlerTest {
-	
+
 	@Mock
 	private InvalidTokenException invalidTokenException;
+	
+	@Mock
+	private UnauthorizedUserException unauthorizedUserException;
 
 	@InjectMocks
 	private MyExceptionHandler myExceptionHandler;
 
 	@Test
-	    public void testMymessage() {
-	        when(invalidTokenException.getMessage()).thenReturn("Invalid token message");
+	public void testInvalidToken() {
+		when(invalidTokenException.getMessage()).thenReturn("Invalid token message");
+		
+	    ResponseEntity<String> response = myExceptionHandler.invalidToken(invalidTokenException);
 
-	        ResponseEntity<String> response = myExceptionHandler.Mymessage(invalidTokenException);
-
-	        assertEquals("Invalid token message", response.getBody());
-	        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-	    }
+        assertEquals("Invalid token message", response.getBody());
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+    }
+	
+	@Test
+	public void testUnAuthorized() {
+		when(unauthorizedUserException.getMessage()).thenReturn("user is not authenticated");
+		
+		ResponseEntity<String> response = myExceptionHandler.unAuthorized(unauthorizedUserException);
+		
+		assertEquals("user is not authenticated", response.getBody());
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+	}
 }
