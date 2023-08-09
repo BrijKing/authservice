@@ -27,6 +27,10 @@ public class JwtServiceImp implements JwtService {
 	@Autowired
 	private UserRepository userRepository;
 
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
 	public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
 	@Override
@@ -62,7 +66,6 @@ public class JwtServiceImp implements JwtService {
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
 				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
-
 	}
 
 	@Override
@@ -72,12 +75,10 @@ public class JwtServiceImp implements JwtService {
 		return Keys.hmacShaKeyFor(keyBytes);
 	}
 
-	private String populateAuthorities(String email) {
+	public String populateAuthorities(String email) {
 
 		Optional<User> userInfo = userRepository.findByEmail(email);
-
 		return userInfo.get().getRole();
-
 	}
 
 }
