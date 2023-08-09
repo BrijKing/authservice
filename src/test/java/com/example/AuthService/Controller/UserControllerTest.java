@@ -19,6 +19,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.example.AuthService.CustomExceptions.UnauthorizedUserException;
 import com.example.AuthService.config.CustomUserDetails;
 import com.example.AuthService.controller.UserController;
 import com.example.AuthService.dto.AuthRequest;
@@ -49,7 +51,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testGenerateTokenAuthenticated() {
+	public void testGenerateTokenAuthenticated() throws UnauthorizedUserException {
 		AuthRequest authRequest = new AuthRequest("j@n.com", "jimit");
 		UserDetails userDetails = new CustomUserDetails(new User("j@n.com", "jimit"));
 
@@ -67,7 +69,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testGenerateTokenUnauthenticated() {
+	public void testGenerateTokenUnauthenticated() throws UnauthorizedUserException {
 		AuthRequest authRequest = new AuthRequest("j@n.com", "jimit");
 
 		when(authenticationManager.authenticate(any(Authentication.class)))
