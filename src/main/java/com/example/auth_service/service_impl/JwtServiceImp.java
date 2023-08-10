@@ -1,4 +1,4 @@
-package com.example.AuthService.ServiceImp;
+package com.example.auth_service.service_impl;
 
 import java.security.Key;
 import java.util.Date;
@@ -11,9 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.AuthService.models.User;
-import com.example.AuthService.repositories.UserRepository;
-import com.example.AuthService.services.JwtService;
+import com.example.auth_service.models.User;
+import com.example.auth_service.repositories.UserRepository;
+import com.example.auth_service.services.JwtService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -40,15 +40,15 @@ public class JwtServiceImp implements JwtService {
 
 			Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).toString();
 
-			return new ResponseEntity<String>("valid token", HttpStatus.OK);
+			return new ResponseEntity<>("valid token", HttpStatus.OK);
 
 		} catch (ExpiredJwtException e) {
 
-			return new ResponseEntity<String>("your login session has been expired please login again !!",
+			return new ResponseEntity<>("your login session has been expired please login again !!",
 					HttpStatus.UNAUTHORIZED);
 		} catch (Exception e) {
 
-			return new ResponseEntity<String>("Invalid Token received!!" + e.getMessage(), HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>("Invalid Token received!!" + e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 	}
 
@@ -78,6 +78,10 @@ public class JwtServiceImp implements JwtService {
 	public String populateAuthorities(String email) {
 
 		Optional<User> userInfo = userRepository.findByEmail(email);
+		
+		if (userInfo.isEmpty()) {
+			return "user not found";
+		}
 		return userInfo.get().getRole();
 	}
 

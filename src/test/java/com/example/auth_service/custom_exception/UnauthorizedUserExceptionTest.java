@@ -1,15 +1,15 @@
-package com.example.AuthService.CustomException;
+package com.example.auth_service.custom_exception;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.example.AuthService.CustomExceptions.UnauthorizedUserException;
+import com.example.auth_service.custom_exceptions.UnauthorizedUserException;
 
-public class UnauthorizedUserExceptionTest {
+class UnauthorizedUserExceptionTest {
 
 	@Test
-	public void testExceptionMessage() {
+	void testExceptionMessage() {
 		UnauthorizedUserException exception = new UnauthorizedUserException();
 
 		assertEquals("user is not authenticated", exception.getMessage());

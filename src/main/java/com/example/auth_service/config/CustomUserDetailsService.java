@@ -1,4 +1,4 @@
-package com.example.AuthService.config;
+package com.example.auth_service.config;
 
 import java.util.Optional;
 
@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.example.AuthService.models.User;
-import com.example.AuthService.repositories.UserRepository;
+import com.example.auth_service.models.User;
+import com.example.auth_service.repositories.UserRepository;
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> credential = userRepository.findByEmail(email);
+    	Optional<User> credential = userRepository.findByEmail(email);
         return credential.map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException("user not found with name :" + email));
     }
 }

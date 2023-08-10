@@ -1,12 +1,12 @@
-package com.example.AuthService.ExceptionHandler;
+package com.example.auth_service.exception_handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.example.AuthService.CustomExceptions.InvalidTokenException;
-import com.example.AuthService.CustomExceptions.UnauthorizedUserException;
+import com.example.auth_service.custom_exceptions.InvalidTokenException;
+import com.example.auth_service.custom_exceptions.UnauthorizedUserException;
 
 @RestControllerAdvice
 public class MyExceptionHandler {

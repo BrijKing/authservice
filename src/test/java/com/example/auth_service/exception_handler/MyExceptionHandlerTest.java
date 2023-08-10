@@ -1,23 +1,21 @@
-package com.example.AuthService.ExceptionHandler;
+package com.example.auth_service.exception_handler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.example.AuthService.CustomExceptions.InvalidTokenException;
-import com.example.AuthService.CustomExceptions.UnauthorizedUserException;
+import com.example.auth_service.custom_exceptions.InvalidTokenException;
+import com.example.auth_service.custom_exceptions.UnauthorizedUserException;
 
 @ExtendWith(MockitoExtension.class)
-public class MyExceptionHandlerTest {
+class MyExceptionHandlerTest {
 
 	@Mock
 	private InvalidTokenException invalidTokenException;
@@ -29,7 +27,7 @@ public class MyExceptionHandlerTest {
 	private MyExceptionHandler myExceptionHandler;
 
 	@Test
-	public void testInvalidToken() {
+	void testInvalidToken() {
 		when(invalidTokenException.getMessage()).thenReturn("Invalid token message");
 		
 	    ResponseEntity<String> response = myExceptionHandler.invalidToken(invalidTokenException);
@@ -39,7 +37,7 @@ public class MyExceptionHandlerTest {
     }
 	
 	@Test
-	public void testUnAuthorized() {
+	void testUnAuthorized() {
 		when(unauthorizedUserException.getMessage()).thenReturn("user is not authenticated");
 		
 		ResponseEntity<String> response = myExceptionHandler.unAuthorized(unauthorizedUserException);

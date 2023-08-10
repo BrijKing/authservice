@@ -1,14 +1,14 @@
-package com.example.AuthService.ServiceImp;
+package com.example.auth_service.service_impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.AuthService.models.User;
-import com.example.AuthService.repositories.UserRepository;
-import com.example.AuthService.services.JwtService;
-import com.example.AuthService.services.UserService;
+import com.example.auth_service.models.User;
+import com.example.auth_service.repositories.UserRepository;
+import com.example.auth_service.services.JwtService;
+import com.example.auth_service.services.UserService;
 
 @Service
 public class UserServiceImp implements UserService {

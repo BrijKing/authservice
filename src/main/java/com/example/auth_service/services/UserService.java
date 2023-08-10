@@ -1,10 +1,8 @@
-package com.example.AuthService.services;
-
-import java.util.List;
+package com.example.auth_service.services;
 
 import org.springframework.http.ResponseEntity;
 
-import com.example.AuthService.models.User;
+import com.example.auth_service.models.User;
 
 public interface UserService {
 

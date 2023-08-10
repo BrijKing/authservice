@@ -1,4 +1,4 @@
-package com.example.AuthService.ServiceImplTest;
+package com.example.auth_service.service_impl_test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,9 +23,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.example.AuthService.ServiceImp.JwtServiceImp;
-import com.example.AuthService.models.User;
-import com.example.AuthService.repositories.UserRepository;
+import com.example.auth_service.models.User;
+import com.example.auth_service.repositories.UserRepository;
+import com.example.auth_service.service_impl.JwtServiceImp;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -35,7 +35,7 @@ import io.jsonwebtoken.security.Keys;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class JwtServiceImpTest {
+class JwtServiceImpTest {
 
 	@Mock
 	UserRepository userRepository;
@@ -58,7 +58,7 @@ public class JwtServiceImpTest {
 	}
 
 	@Test
-	public void testValidToken() {
+	void testValidToken() {
 		String validToken = generateValidToken();
 
 		ResponseEntity<String> response = jwtServiceImp.validateToken(validToken);
@@ -67,7 +67,7 @@ public class JwtServiceImpTest {
 	}
 
 	@Test
-	public void testInvalidToken() {
+	void testInvalidToken() {
 		String invalidToken = "invalid_token";
 
 		ResponseEntity<String> response = jwtServiceImp.validateToken(invalidToken);
@@ -77,7 +77,7 @@ public class JwtServiceImpTest {
 	}
 
 	@Test
-	public void testExpiredToken() {
+	void testExpiredToken() {
 		String expiredToken = generateExpiredToken();
 		ResponseEntity<String> response = jwtServiceImp.validateToken(expiredToken);
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
@@ -88,7 +88,7 @@ public class JwtServiceImpTest {
 
 
     @Test
-    public void testGenerateToken() {
+    void testGenerateToken() {
     	
         String email = "j@n.com";
         String mockRole = "admin";
@@ -106,7 +106,7 @@ public class JwtServiceImpTest {
     }
 
 	@Test
-	public void testCreateToken() {
+	void testCreateToken() {
 		
 		String email = "j@n.com";
 		String mockRole = "admin";
@@ -136,7 +136,7 @@ public class JwtServiceImpTest {
 	}
 
 	@Test
-	public void testGetSignKey() {
+	void testGetSignKey() {
 
 		Key generatedKey = jwtServiceImp.getSignKey();
 		assertNotNull(generatedKey);
@@ -148,7 +148,7 @@ public class JwtServiceImpTest {
 	}
 
 	@Test
-	public void testPopulateAuthorities() {
+	void testPopulateAuthorities() {
 
 		String email = "j@n.com";
 

@@ -1,4 +1,4 @@
-package com.example.AuthService.Controller;
+package com.example.auth_service.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,14 +16,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
-import com.example.AuthService.CustomExceptions.UnauthorizedUserException;
-import com.example.AuthService.controller.UserController;
-import com.example.AuthService.dto.AuthRequest;
-import com.example.AuthService.models.User;
-import com.example.AuthService.services.UserService;
+import com.example.auth_service.custom_exceptions.UnauthorizedUserException;
+import com.example.auth_service.dto.AuthRequest;
+import com.example.auth_service.models.User;
+import com.example.auth_service.services.UserService;
 
 @ExtendWith(MockitoExtension.class)
-public class UserControllerTest {
+class UserControllerTest {
 
 	@Mock
 	private UserService userService;
@@ -35,7 +34,7 @@ public class UserControllerTest {
 	private UserController userController;
 
 	@Test
-	public void testRegisterUser() {
+	void testRegisterUser() {
 		User user = new User("j@n.com", "jimit", "admin");
 		when(userService.registerUser(user)).thenReturn("User registered successfully");
 
@@ -46,7 +45,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testGenerateToken() throws UnauthorizedUserException {
+	void testGenerateToken() throws UnauthorizedUserException {
 
 		AuthRequest mockAuthRequest = new AuthRequest();
 		mockAuthRequest.setEmail("j@n.com");
@@ -72,7 +71,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testValidateTokenValid() {
+	void testValidateTokenValid() {
 		String token = "valid-token";
 		ResponseEntity<String> expectedResponse = new ResponseEntity<>("valid token", HttpStatus.OK);
 
@@ -84,7 +83,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testValidateTokenInvalid() {
+	void testValidateTokenInvalid() {
 		String token = "invalid-token";
 		ResponseEntity<String> expectedResponse = new ResponseEntity<>("Invalid Token received!!",
 				HttpStatus.UNAUTHORIZED);

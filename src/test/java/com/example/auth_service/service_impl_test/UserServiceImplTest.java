@@ -1,8 +1,9 @@
-package com.example.AuthService.ServiceImplTest;
+package com.example.auth_service.service_impl_test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,14 +14,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.example.AuthService.ServiceImp.UserServiceImp;
-import com.example.AuthService.models.User;
-import com.example.AuthService.repositories.UserRepository;
-import com.example.AuthService.services.JwtService;
+
+import com.example.auth_service.models.User;
+import com.example.auth_service.repositories.UserRepository;
+import com.example.auth_service.service_impl.UserServiceImp;
+import com.example.auth_service.services.JwtService;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class UserServiceImplTest {
+class UserServiceImplTest {
 
 	@Mock
 	private PasswordEncoder passwordEncoder;
@@ -42,7 +44,7 @@ public class UserServiceImplTest {
 	}
 
 	@Test
-    public void testRegisterUser() {
+    void testRegisterUser() {
 
         when(passwordEncoder.encode(user.getPassword())).thenReturn("jimit");
 
@@ -56,7 +58,7 @@ public class UserServiceImplTest {
 	}
 
 	@Test
-	public void testGenerateToken() {
+	void testGenerateToken() {
 
 		String expectedToken = "qwertyuiopzasxcfvgbhnjmkl";
 		when(jwtService.generateToken(user.getEmail())).thenReturn(expectedToken);
@@ -66,7 +68,7 @@ public class UserServiceImplTest {
 	}
 
 	@Test
-	public void testValidateValidToken() {
+	void testValidateValidToken() {
 
 		String validToken = "validToken";
 
@@ -80,7 +82,7 @@ public class UserServiceImplTest {
 	}
 
 	@Test
-	public void testValidateInvalidToken() {
+	void testValidateInvalidToken() {
 
 		String invalidToken = "invalidToken";
 

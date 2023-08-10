@@ -1,4 +1,4 @@
-package com.example.AuthService.services;
+package com.example.auth_service.services;
 
 import java.security.Key;
 import java.util.Map;

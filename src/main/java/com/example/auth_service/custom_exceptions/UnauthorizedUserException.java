@@ -1,4 +1,4 @@
-package com.example.AuthService.CustomExceptions;
+package com.example.auth_service.custom_exceptions;
 
 public class UnauthorizedUserException extends Exception{
 	

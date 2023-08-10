@@ -1,4 +1,4 @@
-package com.example.AuthService;
+package com.example.auth_service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -8,13 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootTest
-public class AuthServiceApplicationTest {
+class AuthServiceApplicationTest {
 
     @Autowired
     private ApplicationContext applicationContext;
 
     @Test
-    public void contextLoads() {
+    void contextLoads() {
         assertNotNull(applicationContext);
     }
 }

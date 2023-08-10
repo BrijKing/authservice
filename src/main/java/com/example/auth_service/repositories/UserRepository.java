@@ -1,10 +1,10 @@
-package com.example.AuthService.repositories;
+package com.example.auth_service.repositories;
 
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.example.AuthService.models.User;
+import com.example.auth_service.models.User;
 
 public interface UserRepository extends MongoRepository<User, String>{
 	

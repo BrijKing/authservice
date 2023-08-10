@@ -1,10 +1,9 @@
-package com.example.AuthService.CustomExceptions;
+package com.example.auth_service.custom_exceptions;
 
 @SuppressWarnings("serial")
 public class InvalidTokenException  extends Exception {
 	
 	public InvalidTokenException() {
-		// TODO Auto-generated constructor stub
 		super("Invalid Token received :( ");
 	}
 }

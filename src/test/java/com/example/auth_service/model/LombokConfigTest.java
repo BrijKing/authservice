@@ -1,13 +1,16 @@
-package com.example.AuthService.model;
+package com.example.auth_service.model;
 
-import com.example.AuthService.models.User;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-public class LombokConfigTest {
+import com.example.auth_service.models.User;
+
+class LombokConfigTest {
 
     @Test
-    public void testChainAccessors() {
+    void testChainAccessors() {
         User user = new User();
         user.setId("1");
         user.setEmail("j@n.com");
@@ -21,7 +24,7 @@ public class LombokConfigTest {
     }
 
     @Test
-    public void testGeneratedAnnotation() {
+    void testGeneratedAnnotation() {
         assertFalse(User.class.isAnnotationPresent(lombok.Generated.class));
     }
 }
