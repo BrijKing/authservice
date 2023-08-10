@@ -3,6 +3,8 @@ package com.example.auth_service.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,7 @@ import org.springframework.security.core.Authentication;
 
 import com.example.auth_service.custom_exceptions.UnauthorizedUserException;
 import com.example.auth_service.dto.AuthRequest;
+import com.example.auth_service.dto.UserDto;
 import com.example.auth_service.models.User;
 import com.example.auth_service.services.UserService;
 
@@ -34,15 +37,25 @@ class UserControllerTest {
 	private UserController userController;
 
 	@Test
-	void testRegisterUser() {
-		User user = new User("j@n.com", "jimit", "admin");
-		when(userService.registerUser(user)).thenReturn("User registered successfully");
+    void testRegisterUser() {
+        UserDto userDto = new UserDto();
+        userDto.setEmail("j@n.com");
+        userDto.setPassword("jimit");
+        userDto.setRole("admin");
 
-		ResponseEntity<String> response = userController.registerUser(user);
+        User user = new User();
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setRole(userDto.getRole());
 
-		assertEquals("User registered successfully", response.getBody());
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-	}
+        when(userService.registerUser(any(User.class))).thenReturn("User registered successfully");
+
+        ResponseEntity<String> response = userController.registerUser(userDto);
+
+        verify(userService, times(1)).registerUser(any(User.class));
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals("User registered successfully", response.getBody());
+    }
 
 	@Test
 	void testGenerateToken() throws UnauthorizedUserException {
