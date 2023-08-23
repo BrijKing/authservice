@@ -1,8 +1,12 @@
 package com.example.auth_service.services;
 
-import org.springframework.http.ResponseEntity;
+import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
+import com.example.auth_service.custom_exceptions.UserEmailNotFoundException;
 import com.example.auth_service.models.User;
+
 
 public interface UserService {
 
@@ -11,6 +15,12 @@ public interface UserService {
     String generateToken(String email);
     
     ResponseEntity<String> validateToken(String token);
+    
+    List<User> getAllUsers();
+	
+	Page<User> getPaginatedResults(int page);
+	
+	List<User> findUserByEmai(String email) throws UserEmailNotFoundException;
 	
 	
 	
