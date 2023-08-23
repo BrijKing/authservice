@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.auth_service.custom_exceptions.UserEmailNotFoundException;
+import com.example.auth_service.dto.EmployeeDto;
 import com.example.auth_service.models.User;
 import com.example.auth_service.repositories.UserRepository;
 import com.example.auth_service.services.JwtService;
@@ -19,15 +20,15 @@ import com.example.auth_service.services.UserService;
 
 @Service
 public class UserServiceImp implements UserService {
-	
-	@Autowired
-    private UserRepository userRepository;
-	
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private JwtService jwtService;
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private JwtService jwtService;
 
 	public UserServiceImp(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		super();
@@ -54,27 +55,38 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public List<User> getAllUsers() {
-		
+
 		return userRepository.findAll();
 	}
 
 	@Override
-	public Page<User> getPaginatedResults(int page) {
+	public Page<EmployeeDto> getPaginatedResults(int page) {
 		Pageable pageable = PageRequest.of(page, 5);
-		
-		return userRepository.findAll(pageable) ;
+
+		Page<User> userData = userRepository.findAll(pageable);
+
+		return userData.map(user -> {
+			EmployeeDto employeeDto = new EmployeeDto();
+			employeeDto.setId(user.getId());
+			employeeDto.setEmail(user.getEmail());
+			employeeDto.setRole(user.getRole());
+			return employeeDto;
+		});
 	}
 
 	@Override
-	public List<User> findUserByEmai(String email) throws UserEmailNotFoundException {
-		
-	User user  = userRepository.findByEmail(email).orElseThrow(() -> new UserEmailNotFoundException());
-	
-	List<User> userList = new ArrayList<>();
-	
-	userList.add(user);
-	
-	
-		return userList;
+	public List<EmployeeDto> findUserByEmail(String email) throws UserEmailNotFoundException {
+
+		User user = userRepository.findByEmail(email).orElseThrow(UserEmailNotFoundException::new);
+
+		EmployeeDto employeeDto = new EmployeeDto();
+		employeeDto.setId(user.getId());
+		employeeDto.setEmail(user.getEmail());
+		employeeDto.setRole(user.getRole());
+
+		List<EmployeeDto> employeeDtoList = new ArrayList<>();
+	    employeeDtoList.add(employeeDto);
+
+	    return employeeDtoList;
 	}
 }

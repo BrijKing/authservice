@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import com.example.auth_service.custom_exceptions.UserEmailNotFoundException;
+import com.example.auth_service.dto.EmployeeDto;
 import com.example.auth_service.models.User;
 
 
@@ -18,9 +19,9 @@ public interface UserService {
     
     List<User> getAllUsers();
 	
-	Page<User> getPaginatedResults(int page);
+	Page<EmployeeDto> getPaginatedResults(int page);
 	
-	List<User> findUserByEmai(String email) throws UserEmailNotFoundException;
+	List<EmployeeDto> findUserByEmail(String email) throws UserEmailNotFoundException;
 	
 	
 	
