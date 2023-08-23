@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.auth_service.custom_exceptions.InvalidTokenException;
 import com.example.auth_service.custom_exceptions.UnauthorizedUserException;
+import com.example.auth_service.custom_exceptions.UserEmailNotFoundException;
 
 @RestControllerAdvice
 public class MyExceptionHandler {
@@ -23,4 +24,8 @@ public class MyExceptionHandler {
 		return new ResponseEntity<>(c.getMessage(),HttpStatus.UNAUTHORIZED);
 	}
 
+	@ExceptionHandler(UserEmailNotFoundException.class)
+	public ResponseEntity<String> emailNotFound(UserEmailNotFoundException c){
+		return new ResponseEntity<>(c.getMessage(),HttpStatus.UNAUTHORIZED);
+	}
 }
