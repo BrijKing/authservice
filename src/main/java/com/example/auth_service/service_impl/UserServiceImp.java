@@ -77,7 +77,7 @@ public class UserServiceImp implements UserService {
 	@Override
 	public List<EmployeeDto> findUserByEmail(String email) throws UserEmailNotFoundException {
 
-		User user = userRepository.findByEmail(email).orElseThrow(UserEmailNotFoundException::new);
+		User user = userRepository.findByEmail(email).orElseThrow(() -> new UserEmailNotFoundException());
 
 		EmployeeDto employeeDto = new EmployeeDto();
 		employeeDto.setId(user.getId());

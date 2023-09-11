@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.example.auth_service.custom_exceptions.InvalidTokenException;
 import com.example.auth_service.custom_exceptions.UnauthorizedUserException;
+import com.example.auth_service.custom_exceptions.UserEmailNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 class MyExceptionHandlerTest {
@@ -22,6 +23,9 @@ class MyExceptionHandlerTest {
 	
 	@Mock
 	private UnauthorizedUserException unauthorizedUserException;
+	
+	@Mock
+	private UserEmailNotFoundException userEmailNotFoundException;
 
 	@InjectMocks
 	private MyExceptionHandler myExceptionHandler;
@@ -44,5 +48,16 @@ class MyExceptionHandlerTest {
 		
 		assertEquals("user is not authenticated", response.getBody());
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+	}
+	
+	@Test
+	void testEmailNotFound() {
+		when(userEmailNotFoundException.getMessage()).thenReturn("Employee  not found");
+		
+		ResponseEntity<String> response = myExceptionHandler.emailNotFound(userEmailNotFoundException);
+		
+		assertEquals("Employee  not found", response.getBody());
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+
 	}
 }
